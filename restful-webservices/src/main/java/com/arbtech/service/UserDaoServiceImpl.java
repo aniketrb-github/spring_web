@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -53,30 +54,30 @@ public class UserDaoServiceImpl implements IUserDaoService {
 	}
 
 	@Override
-	public String createUser(User p_user) {
-		String result = "User already present!";
+	public User createUser(User p_user) {
+		Optional<User> user = null;
 		if(!users.contains(p_user)) {
 			p_user.setId(++usersCount);
 			users.add(p_user);
-			result = "User created successfully!\nTotal userCount: "+usersCount;
+		
+			user = users.stream().
+		    filter(p -> p.getId().intValue() == p_user.getId().intValue()).
+		    findFirst();
 		} 
-		return result;
+		return user.get();
 	}
 
 	@Override
-	public String updateUser(int p_userId, User p_user) {
-		String result = "User not found!";
+	public void updateUser(int p_userId, User p_user) {
 		for (User user : users) {
 			if (user.getId().intValue() == p_userId) {
 				if (user.getName() != p_user.getName())
 					user.setName(p_user.getName());
 				if (user.getBirthDate() != p_user.getBirthDate())
 					user.setBirthDate(p_user.getBirthDate());
-				result = "User updated successfully for userId: " + p_userId;
 				break;
 			}
 		}
-		return result;
 	}
 
 }

@@ -14,8 +14,8 @@ public interface IUserDaoService {
 
 	String deleteUser(int userId);
 
-	String createUser(User user);
+	User createUser(User user);
 
-	String updateUser(int userId, User user);
+	void updateUser(int userId, User user);
 
 }

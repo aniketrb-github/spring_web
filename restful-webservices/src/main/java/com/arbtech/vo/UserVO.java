@@ -18,4 +18,7 @@ public class UserVO {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
+	
+	public UserVO() {
+	}
 }

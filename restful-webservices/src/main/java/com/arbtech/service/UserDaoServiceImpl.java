@@ -40,17 +40,17 @@ public class UserDaoServiceImpl implements IUserDaoService {
 	}
 
 	@Override
-	public String deleteUser(int userId) {
-		String result = "User with userId:"+userId+" not found!";
+	public Boolean deleteUser(int userId) {
+		boolean isDeleted = Boolean.FALSE;
 		for(User user : users) {
 			if(user.getId().intValue() == userId) {
 				users.remove(user);
 				usersCount--;
-				result = "Deleted userID: "+userId+" successfully!\nTotal userCount: "+usersCount;
+				isDeleted = Boolean.TRUE;
 				break;
 			}
 		}
-		return result;
+		return isDeleted;
 	}
 
 	@Override
@@ -68,16 +68,19 @@ public class UserDaoServiceImpl implements IUserDaoService {
 	}
 
 	@Override
-	public void updateUser(int p_userId, User p_user) {
+	public User updateUser(int p_userId, User p_user) {
+		User l_user = null;
 		for (User user : users) {
 			if (user.getId().intValue() == p_userId) {
 				if (user.getName() != p_user.getName())
 					user.setName(p_user.getName());
 				if (user.getBirthDate() != p_user.getBirthDate())
 					user.setBirthDate(p_user.getBirthDate());
+				l_user = user;
 				break;
 			}
 		}
+		return l_user;
 	}
 
 }

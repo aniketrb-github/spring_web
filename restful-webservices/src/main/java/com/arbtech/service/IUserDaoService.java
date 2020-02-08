@@ -12,10 +12,10 @@ public interface IUserDaoService {
 
 	UserVO getAllUsers();
 
-	String deleteUser(int userId);
+	Boolean deleteUser(int userId);
 
 	User createUser(User user);
 
-	void updateUser(int userId, User user);
+	User updateUser(int userId, User user);
 
 }

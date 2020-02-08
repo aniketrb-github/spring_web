@@ -3,11 +3,12 @@ package com.arbtech.exception;
 import java.util.Date;
 
 /**
- * Generic Base class for Exception response
+ * Generic Base class model for Exception response
+ * Standard exception response across the application
  * 
- * @author HP
+ * @author Aniket Bharsakale
  */
-public class ExceptionResponse {
+public class BaseExceptionResponse {
 	private Date timestamp;
 	private String message;
 	private String details;
@@ -24,7 +25,7 @@ public class ExceptionResponse {
 		return details;
 	}
 
-	public ExceptionResponse(Date timestamp, String message, String details) {
+	public BaseExceptionResponse(Date timestamp, String message, String details) {
 		super();
 		this.timestamp = timestamp;
 		this.message = message;

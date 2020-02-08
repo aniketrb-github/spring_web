@@ -2,6 +2,11 @@ package com.arbtech.model;
 
 import java.util.Date;
 
+/**
+ * User model class
+ * 
+ * @author Aniket Bharsakale
+ */
 public class User {
 	private String name;
 	private Integer id;

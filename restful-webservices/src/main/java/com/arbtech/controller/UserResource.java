@@ -28,10 +28,10 @@ public class UserResource {
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> getAllUsers() {
 		UserVO userVO = userDaoService.getAllUsers();
-		if (null != userVO)
+		if (null != userVO && !userVO.getUsers().isEmpty())
 			return ResponseEntity.status(HttpStatus.OK).body(userVO);
 		else
-			throw new UserNotFoundException("");
+			throw new UserNotFoundException("That's bizzare, No user's found in database!");
 	}
 
 	@GetMapping(value = "/{userId}")
@@ -49,18 +49,16 @@ public class UserResource {
 		if (isDeleted)
 			return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK.value());
 		else
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(HttpStatus.NOT_FOUND.value());
+			throw new UserNotFoundException("userID: " + userId);
 	}
 	
 	@PostMapping
 	public ResponseEntity<?> createUser(@RequestBody User p_user) {
-
 		User user = userDaoService.createUser(p_user);
 		if (null != user)
 			return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED.value());
 		else
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			throw new UserNotFoundException(""+HttpStatus.EXPECTATION_FAILED);
 	}
 	
 	@PutMapping(value = "/{userId}")
@@ -69,6 +67,6 @@ public class UserResource {
 		if (null != user)
 			return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK.value());
 		else
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(HttpStatus.NOT_FOUND.value());
+			throw new UserNotFoundException("userID: " + userId);
 	}
 }

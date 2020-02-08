@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 import com.arbtech.model.User;
 import com.arbtech.vo.UserVO;
 
+/**
+ * Service layer class for UserDAO
+ * 
+ * @author Aniket Bharsakale
+ */
 @Component
 public class UserDaoServiceImpl implements IUserDaoService {
 
@@ -64,7 +69,7 @@ public class UserDaoServiceImpl implements IUserDaoService {
 		    filter(p -> p.getId().intValue() == p_user.getId().intValue()).
 		    findFirst();
 		} 
-		return user.get();
+		return user.isPresent() ? user.get() : null;
 	}
 
 	@Override

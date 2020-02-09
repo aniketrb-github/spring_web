@@ -11,10 +11,10 @@ import javax.validation.constraints.Size;
  * @author Aniket Bharsakale
  */
 public class User {
-	@Size(min=2, message="Name should be more than 2 characters")
+	@Size(min = 2, message = "Name should be more than 2 characters")
 	private String name;
 	private Integer id;
-	@Past(message="Birthdate cannot be a future/present date.")
+	@Past(message = "Birthdate cannot be a future/present date.")
 	private Date birthDate;
 
 	public User(String name, Integer id, Date birthDate) {
@@ -49,5 +49,5 @@ public class User {
 
 	public User() {
 	}
-	
+
 }

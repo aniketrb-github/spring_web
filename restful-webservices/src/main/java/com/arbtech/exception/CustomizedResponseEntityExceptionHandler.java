@@ -2,8 +2,10 @@ package com.arbtech.exception;
 
 import java.util.Date;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,5 +42,13 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 				webRequest.getDescription(false));
 		
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
+		// Populating our baseException model with required data
+		BaseExceptionResponse exceptionResponse = new BaseExceptionResponse(new Date(), "Validation Failed!",
+				ex.getBindingResult().toString());
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);	
 	}
 }

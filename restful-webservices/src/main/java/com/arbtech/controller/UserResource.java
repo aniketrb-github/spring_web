@@ -1,5 +1,7 @@
 package com.arbtech.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +55,7 @@ public class UserResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> createUser(@RequestBody User p_user) {
+	public ResponseEntity<?> createUser(@Valid @RequestBody User p_user) {
 		User user = userDaoService.createUser(p_user);
 		if (null != user)
 			return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED.value());

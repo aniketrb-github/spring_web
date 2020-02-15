@@ -2,6 +2,9 @@ package com.arbtech.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
@@ -14,12 +17,15 @@ import io.swagger.annotations.ApiModelProperty;
  * @author Aniket Bharsakale
  */
 @ApiModel(description = "The User Model/POJO used in the application.")
+@Entity
 public class User {
 	@Size(min = 2, message = "Name should be more than 2 characters")
 	@ApiModelProperty(notes = "Name should be more than 2 characters")
 	private String name;
 	
 	@ApiModelProperty(notes = "The auto-generated identifier by system for an user.")
+	@Id
+	@GeneratedValue
 	private Integer id;
 
 	@ApiModelProperty(notes = "Birthdate cannot be a future/present date.")

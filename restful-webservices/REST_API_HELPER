@@ -1,0 +1,42 @@
+------ SQL Script for MySQL -------
+create table user (id integer not null, birth_date timestamp, name varchar(255), primary key (id));
+
+------ All API Requests for REST-WS Application ---------
+Model: Post
+GET Request for Post - Get all posts of a given user
+localhost:8888/jpa/users/100/posts
+
+
+POST request for creating a Post for an existing user
+localhost:8888/jpa/users/100/posts
+POST request JSON Body for Post
+{
+	"description": "Adama Traore a hot target for Real Madrid this 2020 summer!"
+}
+
+
+GET all Users
+localhost:8888/jpa/users
+
+GET a User
+localhost:8888/jpa/users/1
+
+POST Request to create a User
+localhost:8888/jpa/users
+JSON body for User: 
+{
+	"name": "Marco Polo",
+	"birthDate": "1998-02-15"
+}
+
+
+
+--------- SWAGGER API's ------------
+http://localhost:8888/v2/api-docs
+
+--------- SWAGGER UI ---------------
+
+http://localhost:8888/swagger-ui.html
+
+--------- REST-WS Versioning -------
+http://localhost:8888/person/produces

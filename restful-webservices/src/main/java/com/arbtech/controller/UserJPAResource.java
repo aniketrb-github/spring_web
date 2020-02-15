@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.arbtech.dao.IPostRepository;
 import com.arbtech.dao.IUserRepository;
 import com.arbtech.exception.UserNotFoundException;
 import com.arbtech.model.Post;
@@ -29,9 +30,12 @@ import com.arbtech.vo.UserVO;
 @RestController
 @RequestMapping(path = "/jpa/users")
 public class UserJPAResource {
-	
+
 	@Autowired
 	private IUserRepository userJPARepository;
+	
+	@Autowired
+	private IPostRepository postJPARepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> getAllUsers() {
@@ -51,14 +55,13 @@ public class UserJPAResource {
 		else
 			throw new UserNotFoundException("userID: " + userId);
 	}
-	
+
 	@DeleteMapping(value = "/{userId}")
 	public ResponseEntity<?> deleteUser(@PathVariable Integer userId) {
-		if(null != userId) {
+		if (null != userId) {
 			userJPARepository.deleteById(userId);
 			return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK.value());
-		}
-		else
+		} else
 			throw new UserNotFoundException("userID: " + userId);
 	}
 	
@@ -68,7 +71,7 @@ public class UserJPAResource {
 		if (null != user)
 			return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED.value());
 		else
-			throw new UserNotFoundException(""+HttpStatus.EXPECTATION_FAILED);
+			throw new UserNotFoundException("" + HttpStatus.EXPECTATION_FAILED);
 	}
 	
 	@PutMapping(value = "/{userId}")
@@ -90,6 +93,21 @@ public class UserJPAResource {
 				return ResponseEntity.status(HttpStatus.OK).body(new PostVO(posts));
 			} else
 				throw new UserNotFoundException("That's bizzare, No such user found in database!");
+		} else
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserVO());
+	}
+	
+	@PostMapping(value = "/{userId}/posts")
+	public ResponseEntity<?> createPost(@PathVariable Integer userId, @Valid @RequestBody Post post) {
+		Optional<User> optionalUser = null;
+		if (null != userId && userId.intValue() != 0) {
+			optionalUser = userJPARepository.findById(userId);
+			if (optionalUser.isPresent()) {
+				post.setUser(optionalUser.get());
+				postJPARepository.save(post);
+				return ResponseEntity.status(HttpStatus.CREATED).body(HttpStatus.CREATED.value());
+			} else
+				throw new UserNotFoundException("That's bizzare! No such user found in database!");
 		} else
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserVO());
 	}

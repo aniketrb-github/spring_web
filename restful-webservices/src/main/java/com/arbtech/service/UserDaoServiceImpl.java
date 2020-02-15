@@ -21,11 +21,11 @@ public class UserDaoServiceImpl implements IUserDaoService {
 
 	private static List<User> users = new ArrayList<User>();
 	static int usersCount = 3;
-	static {
-		users.add(new User("Aniket", 1, new Date()));
-		users.add(new User("Sachin", 2, new Date()));
-		users.add(new User("Samarath", 3, new Date()));
-	}
+	/*
+	 * static { users.add(new User("Aniket", 1, new Date())); users.add(new
+	 * User("Sachin", 2, new Date())); users.add(new User("Samarath", 3, new
+	 * Date())); }
+	 */
 	
 	@Override
 	public UserVO getUser(int userId) {

@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.arbtech.dao.IUserRepository;
 import com.arbtech.exception.UserNotFoundException;
+import com.arbtech.model.Post;
 import com.arbtech.model.User;
+import com.arbtech.vo.PostVO;
 import com.arbtech.vo.UserVO;
 
 @RestController
@@ -77,4 +79,19 @@ public class UserJPAResource {
 		else
 			throw new UserNotFoundException("userID: " + userId);
 	}
+	
+	@GetMapping(value = "/{userId}/posts")
+	public ResponseEntity<?> getAllPostsOfGivenUser(@PathVariable Integer userId) {
+		Optional<User> optionalUser = null;
+		if (null != userId && userId.intValue() != 0) {
+			optionalUser = userJPARepository.findById(userId);
+			if (optionalUser.isPresent()) {
+				List<Post> posts = optionalUser.get().getPosts();
+				return ResponseEntity.status(HttpStatus.OK).body(new PostVO(posts));
+			} else
+				throw new UserNotFoundException("That's bizzare, No such user found in database!");
+		} else
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new UserVO());
+	}
+
 }
